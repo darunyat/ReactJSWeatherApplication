@@ -6,9 +6,7 @@
   margin: 0 auto;
   background-color: rgba(236, 241, 233, 0.632);
 }
-.Weather img {
-  width: 70px;
-}
+
 .Weather li {
   list-style: none;
 }

@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "./weather.css";
 import axios from "axios";
 import FormatedDate from "./formateddate";
+import { RevolvingDot } from "react-loader-spinner";
 
 export default function Weather(props) {
   const [ready, setReady] = useState(false);
   const [weatherData, setWeatherData] = useState({});
+  const [location, setLocation] = useState(props.defaultCity);
+
   function showForecast(response) {
     setWeatherData({
       temperature: response.data.main.temp,
@@ -14,15 +17,28 @@ export default function Weather(props) {
       description: response.data.weather[0].description,
       city: response.data.name,
       country: response.data.sys.country,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`,
+      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       date: new Date(response.data.dt * 1000),
     });
     setReady(true);
   }
+
+  function handleSearch(event) {
+    setLocation(event.target.value);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function search() {
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a161492f71b97ed4d827ea73bfed8c93&units=metric`;
+    axios.get(apiUrl).then(showForecast);
+  }
   if (ready) {
     return (
       <div className="Weather">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="row">
             <div className="col-9">
               <input
@@ -30,6 +46,7 @@ export default function Weather(props) {
                 placeholder="Enter a city"
                 className="form-control"
                 autoFocus="on"
+                onChange={handleSearch}
               />
             </div>
             <div className="col-3">
@@ -77,8 +94,24 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=a161492f71b97ed4d827ea73bfed8c93&units=metric`;
-    axios.get(apiUrl).then(showForecast);
-    return "loading...";
+    search();
+    return (
+      <div className="d-flex selft-align-center">
+        <RevolvingDot
+          height="100"
+          width="100"
+          radius="6"
+          color="#4fa94d"
+          secondaryColor=""
+          ariaLabel="revolving-dot-loading"
+          wrapperStyle={{
+            display: `block`,
+            margin: `0 auto`,
+          }}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
 }
