@@ -104,6 +104,7 @@ export default function Weather(props) {
           <a
             href="https://github.com/darunyat/react-application.git"
             target="_blank"
+            rel="noreferrer"
           >
             opensourced
           </a>{" "}
