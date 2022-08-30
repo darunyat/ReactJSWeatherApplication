@@ -20,6 +20,12 @@ export default function Weather(props) {
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
       date: new Date(response.data.dt * 1000),
     });
+    /*let date = new Date();
+    let utc_offset = date.getTimezoneOffset();
+    date.setMinutes(date.getMinutes() + utc_offset);
+    console.log(`UTC`+date);
+    console.log(new Date().getTimezoneOffset() * 60 * 1000);*/
+
     setReady(true);
   }
 
@@ -37,60 +43,72 @@ export default function Weather(props) {
   }
   if (ready) {
     return (
-      <div className="Weather">
-        <form onSubmit={handleSubmit}>
+      <div className="code">
+        <div className="Weather">
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-9">
+                <input
+                  type="search"
+                  placeholder="Enter a city"
+                  className="form-control"
+                  autoFocus="on"
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="col-3">
+                <input
+                  type="submit"
+                  value="Search"
+                  className="btn btn-light w-100"
+                />
+              </div>
+            </div>
+          </form>
+          <br />
           <div className="row">
             <div className="col-9">
-              <input
-                type="search"
-                placeholder="Enter a city"
-                className="form-control"
-                autoFocus="on"
-                onChange={handleSearch}
-              />
-            </div>
-            <div className="col-3">
-              <input
-                type="submit"
-                value="Search"
-                className="btn btn-light w-100"
-              />
+              <h1>
+                {" "}
+                {weatherData.city} {weatherData.country}{" "}
+              </h1>
+              <p className="text-capitalize">
+                <FormatedDate date={weatherData.date} />
+              </p>
+              <p className="text-uppercase">{weatherData.description}</p>
             </div>
           </div>
-        </form>
-        <br />
-        <div className="row">
-          <div className="col-9">
-            <h1>
-              {" "}
-              {weatherData.city} {weatherData.country}{" "}
-            </h1>
-            <p className="text-capitalize">
-              <FormatedDate date={weatherData.date} />
-            </p>
-            <p className="text-uppercase">{weatherData.description}</p>
+          <div className="row ">
+            <div className=" col-6 d-flex align-items-baseline">
+              <div className="col">
+                <img src={weatherData.icon} alt="description" />
+              </div>
+              <div className="col">
+                <h1>{Math.round(weatherData.temperature)}ºC</h1>
+              </div>
+            </div>
+            <div className="col-6 align-self-center">
+              <ul>
+                <li className="text-uppercase">
+                  Humidity: {weatherData.humidity}%
+                </li>
+                <li className="text-uppercase">
+                  Wind: {Math.round(weatherData.wind)} km/h
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="row ">
-          <div className=" col-6 d-flex align-items-baseline">
-            <div className="col">
-              <img src={weatherData.icon} alt="description" />
-            </div>
-            <div className="col">
-              <h1>{Math.round(weatherData.temperature)}ºC</h1>
-            </div>
-          </div>
-          <div className="col-6 align-self-center">
-            <ul>
-              <li className="text-uppercase">
-                Humidity: {weatherData.humidity}%
-              </li>
-              <li className="text-uppercase">
-                Wind: {Math.round(weatherData.wind)} km/h
-              </li>
-            </ul>
-          </div>
-        </div>
+        <p className="text-center mt-5">
+          This code is{" "}
+          <a
+            href="https://github.com/darunyat/react-application.git"
+            target="_blank"
+          >
+            opensourced
+          </a>{" "}
+          🐈
+        </p>
       </div>
     );
   } else {
