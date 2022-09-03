@@ -3,6 +3,7 @@ import "./weather.css";
 import axios from "axios";
 import FormatedDate from "./formateddate";
 import { RevolvingDot } from "react-loader-spinner";
+import Forecast from "./forecast";
 
 export default function Weather(props) {
   const [ready, setReady] = useState(false);
@@ -18,13 +19,9 @@ export default function Weather(props) {
       city: response.data.name,
       country: response.data.sys.country,
       icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      timezone: response.data.timezone,
       date: new Date(response.data.dt * 1000),
     });
-    /*let date = new Date();
-    let utc_offset = date.getTimezoneOffset();
-    date.setMinutes(date.getMinutes() + utc_offset);
-    console.log(`UTC`+date);
-    console.log(new Date().getTimezoneOffset() * 60 * 1000);*/
 
     setReady(true);
   }
@@ -97,11 +94,13 @@ export default function Weather(props) {
                 </li>
               </ul>
             </div>
+            <Forecast />
           </div>
         </div>
         <p className="text-center mt-5">
           This code is{" "}
           <a
+            className="link"
             href="https://github.com/darunyat/react-application.git"
             target="_blank"
             rel="noreferrer"
