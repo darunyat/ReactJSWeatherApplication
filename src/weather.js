@@ -12,6 +12,7 @@ export default function Weather(props) {
 
   function showForecast(response) {
     setWeatherData({
+      coord: response.data.coord,
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
       wind: response.data.wind.speed,
@@ -94,7 +95,7 @@ export default function Weather(props) {
                 </li>
               </ul>
             </div>
-            <Forecast />
+            <Forecast coord={weatherData.coord} />
           </div>
         </div>
         <p className="text-center mt-5">
