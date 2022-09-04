@@ -16,3 +16,6 @@
 .link:hover {
   color: black;
 }
+.weathericon {
+  align-self: center;
+}

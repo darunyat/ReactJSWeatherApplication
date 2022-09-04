@@ -3,7 +3,8 @@ import "./weather.css";
 import axios from "axios";
 import FormatedDate from "./formateddate";
 import { RevolvingDot } from "react-loader-spinner";
-import Forecast from "./forecast";
+//import Forecast from "./forecast";
+import WeatherIcon from "./weatherIcon";
 
 export default function Weather(props) {
   const [ready, setReady] = useState(false);
@@ -19,7 +20,7 @@ export default function Weather(props) {
       description: response.data.weather[0].description,
       city: response.data.name,
       country: response.data.sys.country,
-      icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+      icon: response.data.weather[0].icon,
       timezone: response.data.timezone,
       date: new Date(response.data.dt * 1000),
     });
@@ -79,7 +80,9 @@ export default function Weather(props) {
           <div className="row ">
             <div className=" col-6 d-flex align-items-baseline">
               <div className="col">
-                <img src={weatherData.icon} alt="description" />
+                <div className="ms-4 ">
+                  <WeatherIcon code={weatherData.icon} />
+                </div>
               </div>
               <div className="col">
                 <h1>{Math.round(weatherData.temperature)}ºC</h1>
@@ -95,7 +98,6 @@ export default function Weather(props) {
                 </li>
               </ul>
             </div>
-            <Forecast coord={weatherData.coord} />
           </div>
         </div>
         <p className="text-center mt-5">

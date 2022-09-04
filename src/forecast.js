@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import "./forecast.css";
 import axios from "axios";
 import { RevolvingDot } from "react-loader-spinner";
@@ -69,4 +69,4 @@ export default function Forecast(props) {
       </div>
     );
   }
-}
+}*/
