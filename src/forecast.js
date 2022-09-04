@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./forecast.css";
 import axios from "axios";
 import { RevolvingDot } from "react-loader-spinner";
@@ -7,6 +7,10 @@ import WeatherForecastDay from "./weatherForecastDay";
 export default function Forecast(props) {
   let [loaded, setLoaded] = useState(false);
   let [forecast, setForecast] = useState({});
+
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coord]);
 
   function showDailyForecast(response) {
     setForecast(response.data.daily);
