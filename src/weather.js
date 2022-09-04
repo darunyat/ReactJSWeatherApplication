@@ -3,16 +3,17 @@ import "./weather.css";
 import axios from "axios";
 import FormatedDate from "./formateddate";
 import { RevolvingDot } from "react-loader-spinner";
-//import Forecast from "./forecast";
+import Forecast from "./forecast";
 import WeatherIcon from "./weatherIcon";
 
 export default function Weather(props) {
-  const [ready, setReady] = useState(false);
-  const [weatherData, setWeatherData] = useState({});
+  //const [ready, setReady] = useState(false);
   const [location, setLocation] = useState(props.defaultCity);
+  const [weatherData, setWeatherData] = useState({ ready: false });
 
   function showForecast(response) {
     setWeatherData({
+      ready: true,
       coord: response.data.coord,
       temperature: response.data.main.temp,
       humidity: response.data.main.humidity,
@@ -25,7 +26,7 @@ export default function Weather(props) {
       date: new Date(response.data.dt * 1000),
     });
 
-    setReady(true);
+    //setReady(true);
   }
 
   function handleSearch(event) {
@@ -40,7 +41,7 @@ export default function Weather(props) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=a161492f71b97ed4d827ea73bfed8c93&units=metric`;
     axios.get(apiUrl).then(showForecast);
   }
-  if (ready) {
+  if (weatherData.ready) {
     return (
       <div className="code">
         <div className="Weather">
@@ -81,7 +82,7 @@ export default function Weather(props) {
             <div className=" col-6 d-flex align-items-baseline">
               <div className="col">
                 <div className="ms-4 ">
-                  <WeatherIcon code={weatherData.icon} />
+                  <WeatherIcon code={weatherData.icon} size={50} />
                 </div>
               </div>
               <div className="col">
@@ -98,6 +99,7 @@ export default function Weather(props) {
                 </li>
               </ul>
             </div>
+            <Forecast coord={weatherData.coord} />
           </div>
         </div>
         <p className="text-center mt-5">
