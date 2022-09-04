@@ -20,8 +20,8 @@ export default function FormatedDate(props) {
     hours = `0${hours}`;
   }
   return (
-    <p>
-      <strong className="text-uppercase">{day}</strong> |{hours}:{minutes}
+    <p className="text-uppercase">
+      <strong>{day}</strong> |Last updated {hours}:{minutes}
     </p>
   );
 }
